@@ -26,7 +26,7 @@ class GasBackgroudScreen extends StatefulWidget {
 class _GasBackgroudScreenState extends State<GasBackgroudScreen> {
   late TextEditingController deviceInfoController;
   late TextEditingController serviceUUIDController;
-  late TextEditingController charUUIDControllerSender ;
+  late TextEditingController charUUIDControllerSender;
   late TextEditingController charUUIDControllerReciver;
   String readData = "";
   bool isServiceRunning = true;
@@ -68,50 +68,48 @@ class _GasBackgroudScreenState extends State<GasBackgroudScreen> {
     });
 
     // _timer = Timer.periodic(const Duration(seconds: 20), (timer) async {
-      await FlutterBlueBackground.startFlutterBackgroundService(() async {
-        // Initialize BLE state stream
+    await FlutterBlueBackground.startFlutterBackgroundService(() async {
+      // Initialize BLE state stream
 
-        Timer.periodic(const Duration(seconds: 20), (timer) async {
-          BluetoothAdapter.initBleStateStream();
-          // Check permissions
-          if (await PermissionEnable().check() == true) {
-            await FlutterBlueBackground.connectToDevice(
-              deviceName: deviceInfoController.text,
-              serviceUuid: serviceUUIDController.text,
-              characteristicUuid: charUUIDControllerSender.text,
-            );
-            // Write data
-            await FlutterBlueBackground.writeData(
-              characteristicUuid: charUUIDControllerSender.text,
-              data: 'testing',
-            );
-            // Read data
-            String? data = await FlutterBlueBackground.readData(
-                characteristicUuid: charUUIDControllerReciver.text);
-          }
-        });
-
-
+      Timer.periodic(const Duration(seconds: 20), (timer) async {
+        BluetoothAdapter.initBleStateStream();
+        // Check permissions
+        if (await PermissionEnable().check() == true) {
+          await FlutterBlueBackground.connectToDevice(
+            deviceName: deviceInfoController.text,
+            serviceUuid: serviceUUIDController.text,
+            characteristicUuid: charUUIDControllerSender.text,
+          );
+          // Write data
+          await FlutterBlueBackground.writeData(
+            characteristicUuid: charUUIDControllerSender.text,
+            data: 'testing',
+          );
+          // Read data
+          String? data = await FlutterBlueBackground.readData(
+              characteristicUuid: charUUIDControllerReciver.text);
+        }
       });
+    });
 
-      // print("Background Thread ------------------>");
-      if (await PermissionEnable().check() == true) {
-        await FlutterBlueBackground.writeData(
-          characteristicUuid: charUUIDControllerSender.text,
-          data: 'testing',
-        );
+    // print("Background Thread ------------------>");
+    if (await PermissionEnable().check() == true) {
+      await FlutterBlueBackground.writeData(
+        characteristicUuid: charUUIDControllerSender.text,
+        data: 'testing',
+      );
 
-        String? data = await FlutterBlueBackground.readData(
-            characteristicUuid: charUUIDControllerReciver.text);
+      String? data = await FlutterBlueBackground.readData(
+          characteristicUuid: charUUIDControllerReciver.text);
 
-        // Update UI
-        setState(() {
-          readData = data ?? 'No data received';
-        });
-      }
-      // await Future.delayed(Duration(seconds: 60));
-      // print("Background Thread Stop------------------>");
-      // await FlutterBlueBackground.stopFlutterBackgroundService();
+      // Update UI
+      setState(() {
+        readData = data ?? 'No data received';
+      });
+    }
+    // await Future.delayed(Duration(seconds: 60));
+    // print("Background Thread Stop------------------>");
+    // await FlutterBlueBackground.stopFlutterBackgroundService();
     // });
   }
 

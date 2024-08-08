@@ -7,24 +7,26 @@ import 'permissions.dart';
 
 class PermissionEnable {
   Future<bool> check() async {
-    bool serviceEnabled = false;
+    // bool serviceEnabled = false;
     bool checkBlueTooth = false;
     bool permissionGranted = false;
 
     checkBlueTooth = await BluetoothAdapter().enableBT();
-    serviceEnabled = await LocationPermission().enable();
+    // serviceEnabled = await LocationPermission().enable();
 
     if (Platform.isIOS) {
-      if (serviceEnabled && checkBlueTooth) {
+      if (checkBlueTooth) {
+      // if (serviceEnabled && checkBlueTooth) {
         return true;
       } else {
-        await LocationPermission().enable();
+        // await LocationPermission().enable();
         return false;
       }
     } else {
       permissionGranted = await PermissionsStatus().status();
 
-      if (permissionGranted && serviceEnabled && checkBlueTooth) {
+      // if (permissionGranted && serviceEnabled && checkBlueTooth) {
+      if (permissionGranted  && checkBlueTooth) {
         return true;
       } else {
         return false;

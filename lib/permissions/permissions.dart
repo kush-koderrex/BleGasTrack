@@ -3,15 +3,15 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionsStatus {
-  static Future<bool> _locationStatus() async {
-    PermissionStatus permissionStatus = await Permission.location.status;
-    if (permissionStatus.isGranted) {
-      return true;
-    } else {
-      await Permission.location.request();
-      return false;
-    }
-  }
+  // static Future<bool> _locationStatus() async {
+  //   PermissionStatus permissionStatus = await Permission.location.status;
+  //   if (permissionStatus.isGranted) {
+  //     return true;
+  //   } else {
+  //     await Permission.location.request();
+  //     return false;
+  //   }
+  // }
 
   static Future<bool> _bleConnectStatus() async {
     PermissionStatus permissionStatus =
@@ -36,10 +36,11 @@ class PermissionsStatus {
 
   Future<bool> status() async {
     if (Platform.isAndroid) {
-      final locationPStatus = await _locationStatus();
+      // final locationPStatus = await _locationStatus();
       final bleScanPStatus = await _bleScanStatus();
       final bleConnectPStatus = await _bleConnectStatus();
-      if (locationPStatus &&
+      if (
+      // locationPStatus &&
           bleConnectPStatus &&
           bleConnectPStatus &&
           bleScanPStatus) {
